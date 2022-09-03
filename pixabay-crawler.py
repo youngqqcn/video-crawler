@@ -28,7 +28,8 @@ def main():
         for i in range(len(space)):
             v = space[i]
             vurl =v.getVideoURL()
-            print(vurl)
+            print('================================================================')
+            print('当前正在爬第{}组关键词:{},开始下载视频({}/{}):{}'.format(n, search_key[:30] ,i+1, len(space) , vurl))
             if kv.exists(vurl): 
                 continue
             try:

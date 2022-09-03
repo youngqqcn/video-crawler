@@ -1,8 +1,9 @@
 ##
 # Pixabay API (unofficial)
-# @author Luk� Pleva� <lukas@plevac.eu>
+# @author Luk� Pleva� <lukas@plevac.eu>
 # @date 3.2.2022
 
+import math
 import requests
 from .image import image
 import urllib.parse
@@ -58,7 +59,8 @@ class query:
     ##
     # Download page from API and save to cache
     # @param page index of page (from 0)
-    def _getPage(self, page):
+    def _getPage(self, page, is_recursive = False):
+        print("获取第{}页的视频链接".format(page))
         uri = "{host}?key={api}&q={query}&lang={lang}&orientation={orient}&per_page={per}&page={page}&order={order}&safesearch={safe}&min_width={width}&min_height={height}&editors_choice={editors}&category={cat}&colors={colors}".format(
             host    = self.params.host,
             query   = urllib.parse.quote(self.params.query, safe=''),
@@ -78,19 +80,35 @@ class query:
 
         r = requests.get(uri)
 
-        if (r.status_code != 200):
+        if r.status_code == 200:
+            pass
+        elif r.status_code == 400 and '"page" is out of valid range' in r.text:
+            return
+        else:
             raise ValueError('Pixabay return status code != 200 for uri', uri, 'Invalid parameters?')
+        
 
         data = r.json()
 
         # Update info
         self.info              = {}
         self.info['total']     = data['total']
-        self.info['totalHits'] = data['totalHits']
+        self.info['totalHits'] = data['totalHits'] # 通过API能够访问视频的数量, 最多500个
 
         # copy data
         for i in range(len(data['hits'])):
             self._cacheInsert(page * self.params.perPage + i, data['hits'][i])
+        
+
+        # 如果是递归进来的，则不再递归
+        if not is_recursive:
+            totalHits = data['totalHits']
+            if totalHits >= 200:
+                pages_count = math.ceil( totalHits / 200)
+                for next in range(2, pages_count+1):
+                    self._getPage(next, is_recursive=True)
+                pass
+        
     
     ##
     # Download image with index to cache
