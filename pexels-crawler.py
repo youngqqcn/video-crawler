@@ -23,7 +23,7 @@ def download_file( url, dst_file):
     
     
     start = int(time.time())
-    r = requests.get(url, allow_redirects=True)
+    r = requests.get(url, allow_redirects=True, timeout=15*60)
     if (r.status_code != 200):
         raise ValueError('Pixabay return status code != 200 for uri', url, 'Invalid parameters?')
     print('视频{}下载完成，开始保存...'.format(dst_file))
@@ -66,7 +66,7 @@ def main():
             try:
                 if pages >= 5:
                     break
-                
+
                 print(f'获取第{pages}页上的视频链接')
                 for video in search_videos_page.entries:
                     # print(video.id, video.user.get('name'), video.url)
