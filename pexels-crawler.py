@@ -60,19 +60,26 @@ def main():
 
         # 获取所有视频链接
         print('开始查询视频')
-        search_videos_page = py_pexel.videos_search(query=search_key, per_page=80)
+        search_videos_page = py_pexel.videos_search(query=search_key, per_page=50)
         pages = 1
         while True:
             try:
+                if pages >= 5:
+                    break
+                
                 print(f'获取第{pages}页上的视频链接')
                 for video in search_videos_page.entries:
                     # print(video.id, video.user.get('name'), video.url)
                     # v = py_pexel.single_video(video_id=video.id)
                     max_hd_link = ''
                     for item in video.video_files:
-                        print(item['link'])
-                        if item['height'] >= 1920  and 'videon/mp4' in item['file_type']:
+                        link = item['link']
+                        # print(item['link'])
+                        if '/720p/' in link :
                             max_hd_link = item['link']
+                        if '/1080p/' in link:
+                            max_hd_link = item['link']
+                            break
                     
                     if max_hd_link != '':
                         videos_urls.append((max_hd_link, video.id))
@@ -81,7 +88,7 @@ def main():
                     break
 
                 #只获取1页的
-                break
+                # break
 
                 search_videos_page = search_videos_page.get_next_page()
                 pages += 1
