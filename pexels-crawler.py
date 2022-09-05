@@ -8,10 +8,12 @@ from pypexels import PyPexels
 from mylocaldb import MyLocalKVDb
 import requests
 import time
+import fake_useragent
 
 
 API_KEY = '563492ad6f917000010000014e4789b693f640b9b998681c580f4adc'
 
+ua = fake_useragent.UserAgent()
 
 def download_file( url, dst_file):
     print('开始下载视频:{}'.format(dst_file))
@@ -23,7 +25,8 @@ def download_file( url, dst_file):
     
     
     start = int(time.time())
-    r = requests.get(url, allow_redirects=True, timeout=15*60)
+    headers = {"User-Agent": ua.random}
+    r = requests.get(url, allow_redirects=True, timeout=15*60, headers=headers)
     if (r.status_code != 200):
         raise ValueError('Pixabay return status code != 200 for uri', url, 'Invalid parameters?')
     print('视频{}下载完成，开始保存...'.format(dst_file))

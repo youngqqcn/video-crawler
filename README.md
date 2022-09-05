@@ -20,6 +20,9 @@ https://www.pexels.com/api/new/
 
 
 # https://api.coverr.co/docs/videos/#list-videos
+App name:metaverseblog
+ID:8B4D1C1EBB528D274DDF
+API Key:89762043357f7844696176b9965a569d
 
 
 

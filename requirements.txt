@@ -3,3 +3,4 @@ beautifulsoup4
 clint
 lxml
 pypexels
+fake-useragent
