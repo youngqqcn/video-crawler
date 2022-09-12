@@ -100,6 +100,7 @@ def main():
             mp4_download = h['urls']['mp4_download']
             mp4_download = mp4_download[ : mp4_download.find('&filename') ]
             pub_time = h['published_at']
+            pub_time = pub_time[ : pub_time.find('T')]
             videos_urls.append((h['id'], mp4_download, pub_time))
 
         pages = vs['pages']
@@ -109,6 +110,7 @@ def main():
                 mp4_download = h['urls']['mp4_download']
                 mp4_download = mp4_download[ : mp4_download.find('&filename') ]
                 pub_time = h['published_at']
+                pub_time = pub_time[ : pub_time.find('T')]
                 videos_urls.append((h['id'], mp4_download, pub_time))
         
         # return
