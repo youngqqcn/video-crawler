@@ -99,7 +99,8 @@ def main():
         for h in vs['hits']:
             mp4_download = h['urls']['mp4_download']
             mp4_download = mp4_download[ : mp4_download.find('&filename') ]
-            videos_urls.append((h['id'], mp4_download))
+            pub_time = h['published_at']
+            videos_urls.append((h['id'], mp4_download, pub_time))
 
         pages = vs['pages']
         for p in range(1, pages):
