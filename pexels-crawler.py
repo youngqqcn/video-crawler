@@ -39,7 +39,7 @@ def download_file( url, dst_file):
 
 def main():
 
-    kv = MyLocalKVDb()
+    kv = MyLocalKVDb(path='pexels.db')
 
     keyfile = json.load(open('keywords.json'))
     keywords =  keyfile['keywords']

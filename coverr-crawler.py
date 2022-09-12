@@ -70,7 +70,7 @@ class Coverr():
 
 def main():
 
-    kv = MyLocalKVDb()
+    kv = MyLocalKVDb(path='coverr.db')
 
     keyfile = json.load(open('keywords.json'))
     keywords =  keyfile['keywords']
@@ -107,7 +107,8 @@ def main():
             for h in vs['hits']:
                 mp4_download = h['urls']['mp4_download']
                 mp4_download = mp4_download[ : mp4_download.find('&filename') ]
-                videos_urls.append((h['id'], mp4_download))
+                pub_time = h['published_at']
+                videos_urls.append((h['id'], mp4_download, pub_time))
         
         # return
         print(f'共{len(videos_urls)}视频链接')
@@ -116,13 +117,14 @@ def main():
             v = videos_urls[x]
             vid = v[0]
             url = v[1]
+            pub_time = v[2]
 
             if kv.exists(url): 
                 continue
 
             print("=======================================================================")
             print('开始下载视频({}/{}):{}'.format(x+1, len(videos_urls), url))
-            dst_file = os.path.join(download_dir,  str(vid) + '.mp4')
+            dst_file = os.path.join(download_dir,  pub_time+str(vid) + '.mp4')
 
             try:
                 cv.download_video(url, dst_file)

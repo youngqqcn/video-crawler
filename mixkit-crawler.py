@@ -75,7 +75,7 @@ class MixkitCrawler:
 
 def main():
 
-    kv = MyLocalKVDb()
+    kv = MyLocalKVDb(path='mixkit.db')
 
     mix =  MixkitCrawler() 
 

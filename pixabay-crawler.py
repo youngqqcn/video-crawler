@@ -13,7 +13,7 @@ API_KEY = '29680557-bb8a14e2a8f66d56426d64cd3'
 
 def main():
 
-    kv = MyLocalKVDb()
+    kv = MyLocalKVDb('pixabay.db')
 
     keyfile = json.load(open('keywords.json'))
     keywords =  keyfile['keywords']

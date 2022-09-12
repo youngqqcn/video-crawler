@@ -4,3 +4,5 @@ pixabay/__pycache__
 __pycache__
 
 video/sub
+.idea
+temp.db
